@@ -23,6 +23,7 @@ public class DangNhap extends javax.swing.JInternalFrame {
      */
     public DangNhap() {
         initComponents();
+        this.getRootPane().setDefaultButton(btndangnhap);
     }
     
     public static DangNhap getInstance() {
@@ -146,8 +147,8 @@ public class DangNhap extends javax.swing.JInternalFrame {
     private void btndangnhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndangnhapActionPerformed
         // TODO add your handling code here:
         Users users = new Users(txtTaiKhoan.getText(), new String(txtpass.getPassword()));
-        UserDao userDao = new UserDaoImpl();
-        if(!userDao.dangNhap(users)) {
+        UserDaoImpl userDaoImpl = new UserDaoImpl();
+        if(!userDaoImpl.dangNhap(users)) {
             DialogThongBao.showError(this, Constant.MSG_THONG_BAO_DANG_NHAP, Constant.MSG_SAI_TEN_MAT_KHAU);
         } else {
             DialogThongBao.showSuccess(this, Constant.MSG_THONG_BAO_DANG_NHAP, Constant.MSG_DANG_NHAP_THANH_CONG);

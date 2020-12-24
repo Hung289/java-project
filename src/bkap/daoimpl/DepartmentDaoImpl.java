@@ -47,6 +47,7 @@ public class DepartmentDaoImpl implements DepartmentDao{
             while (rs.next()) {                
                 id = rs.getInt("Id");
             }
+            System.out.println("bkap.daoimpl.DepartmentDaoImpl.getIdByDepartment()"+id);
             return id;
         } catch (SQLException ex) {
             Logger.getLogger(DepartmentDaoImpl.class.getName()).log(Level.SEVERE, null, ex);

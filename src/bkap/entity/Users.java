@@ -36,6 +36,23 @@ public class Users {
         this.password = password;
     }
 
+    public Users(String username, String password, String img, String name, String phone, String email, String note, int idDepartment, int idRoleGroup, String birthday, int gender, String address, int workDay, int status) {
+        this.username = username;
+        this.password = password;
+        this.img = img;
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.note = note;
+        this.idDepartment = idDepartment;
+        this.idRoleGroup = idRoleGroup;
+        this.birthday = birthday;
+        this.gender = gender;
+        this.address = address;
+        this.workDay = workDay;
+        this.status = status;
+    }
+
     public Users(int id, String username, String password, String img, String name, String phone, String email, String note, int idDepartment, int idRoleGroup, String birthday, int gender, String address, int workDay, int status) {
         this.id = id;
         this.username = username;

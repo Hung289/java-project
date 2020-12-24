@@ -16,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -287,7 +288,7 @@ public class Helper {
         
         try {
             String param[] = new String[]{};
-            ResultSet rs = db.selectData(Constant.SQL_ALL_ROLES, param);
+            ResultSet rs = db.selectData(sql, param);
             DefaultComboBoxModel model = new DefaultComboBoxModel();
             if(cbo.getName().equals("vaitro")) {
                 model.addElement("--Vai Trò--");
@@ -302,5 +303,57 @@ public class Helper {
             Logger.getLogger(Helper.class.getName()).log(Level.SEVERE, null, ex);
         }
         
+    }
+//    public ArrayList<Vector> getListUser(int maVT) throws SQLException {
+//        
+//        ArrayList<Vector> userList = new ArrayList<>();
+//        Vector<Object> obj;
+//        
+//        Integer param[] = new Integer[]{maVT};
+//        ResultSet rs = db.selectData(Constant.SQL_USER_AND_USER_GROUP, param);
+//        while (rs.next()) {
+//            obj = new Vector<>();
+//            obj.add(rs.getString("Name"));
+//            obj.add(rs.getString("Id_group_role"));
+//            obj.add(rs.getString("Username"));
+//            obj.add(rs.getString("Password"));
+//            userList.add(obj);
+//        }
+//        return userList;
+//    }
+//    
+//    public boolean checkUser(int maVT, String username, String pass) throws SQLException {
+//        boolean check = false;
+//        ArrayList<Vector> userList = getListUser(maVT);
+//        Vector<Object> user;
+//        for (Vector u : userList) {
+//            System.out.println("-------"+u.get(2));
+//            System.out.println("-------"+u.get(3));
+//            System.out.println("===============");
+//            System.out.println("-------"+username);
+//            System.out.println("-------"+pass);
+//            if (username.equals(u.get(2)) && pass.equals(u.get(3))) {
+//                check = true;
+//                break;
+//            } else {
+//                check = false;
+//                break;
+//            }
+//        }
+//        System.out.println("bkap.utils.Helper.checkUser()"+check);
+//        return check;
+//    }
+    
+    public int checkUser(String username, String pass) throws SQLException {
+        boolean check = false;
+        String param[] = new String[]{
+            username, pass
+        };   
+        int Id_role_group = 0;
+        ResultSet rs = db.selectData(Constant.SQL_ROLE_BY_USER_PASS, param);
+        while (rs.next()) {            
+            Id_role_group = rs.getInt("Id_role_group");
+        }
+        return Id_role_group;
     }
 }

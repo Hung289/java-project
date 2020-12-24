@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.sql.CallableStatement;
 /**
  *
  * @author admi
@@ -62,6 +63,30 @@ public class DatabaseHelper {
         return ps;
     }
     
+    private <E> CallableStatement getCallableStatement(boolean inSert, String sql, E...args) throws SQLException{
+        CallableStatement cs;
+        if(inSert) {
+            cs = connection.prepareCall(sql);
+        }else{
+            cs = connection.prepareCall(sql);
+        }
+        
+        for (int i = 0; i < args.length; i++) {
+            if(args[i] instanceof Integer) {
+                cs.setInt(i+1, (Integer) args[i]);
+            }else if (args[i] instanceof Float) {
+                cs.setFloat(i + 1, (Float) args[i]);
+            } else if (args[i] instanceof Double) {
+                cs.setDouble(i + 1, (Double) args[i]);
+            } else if (args[i] instanceof Long) {
+                cs.setLong(i + 1, (Long) args[i]);
+            } else if (args[i] instanceof String) {
+                cs.setString(i + 1, (String) args[i]);
+            }
+        }
+        return cs;
+    }
+    
     /**
      * Hàm lấy về dữ liệu: SELECT
      */
@@ -73,5 +98,20 @@ public class DatabaseHelper {
     public <E> int updateData(String sql, E... args) throws SQLException {
         PreparedStatement ps = getPreparedStatement(false, sql, args);
         return ps.executeUpdate();
+    }
+    
+    public <E> int updateDataCall(String sql, E...args) throws SQLException {
+        CallableStatement cs = getCallableStatement(false, sql, args);
+        return cs.executeUpdate();
+    }
+    
+    public <E> ResultSet insertData(String sql, E... args) throws SQLException {
+        PreparedStatement ps = getPreparedStatement(true, sql, args);
+        if(ps.executeUpdate() > 0) {
+            return ps.getGeneratedKeys();
+        } else {
+            return null;
+        }
+//        return ps.executeUpdate();
     }
 }

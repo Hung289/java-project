@@ -54,7 +54,7 @@
             <Property name="text" type="java.lang.String" value="Qu&#x1ea3;n l&#xfd;"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem3">
+            <MenuItem class="javax.swing.JMenuItem" name="jmiUser">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/bkap/icon/nhanvien.png"/>
@@ -62,7 +62,15 @@
                 <Property name="text" type="java.lang.String" value="Nh&#xe2;n Vi&#xea;n"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem3ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiUserActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jmiDichVu">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="D&#x1ecb;ch V&#x1ee5;"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jmiDichVuActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
@@ -94,7 +102,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jToolBar1" pref="587" max="32767" attributes="0"/>
+          <Component id="jToolBar1" pref="911" max="32767" attributes="0"/>
           <Component id="desktopPaneMain" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
@@ -126,7 +134,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="346" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="514" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>

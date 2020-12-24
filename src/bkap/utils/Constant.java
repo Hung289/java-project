@@ -14,7 +14,7 @@ public class Constant {
     public static String port = "1433"; // 3306
     public static String schema = "HotelManager";
     public static String username = "sa"; // root
-    public static String password = "1236540"; // Ubuntu - 12345678
+    public static String password = "1234$"; // Ubuntu - 12345678
     
     // Cú pháp SQL
     public static String SQL_LOGIN = "SELECT * FROM users WHERE Email = ? OR Username = ? AND Password = ?";
@@ -28,6 +28,10 @@ public class Constant {
     public static String MSG_XAC_NHAN_XOA = "Bạn chắc chắn muốn xóa";
     public static final String MSG_ERROR_PASSWORD = "Đổi mật khẩu thất bại";
     public static final String MSG_SUCCESS_PASSWORD = "Đổi mật khẩu thành công";
+    public static final String MSG_SUCCESS_INSERT_USERS = "Thêm mới thành công USER";
+    public static final String MSG_SUCCESS_UPDATE_USER = "Cập nhật thành công USER";
+    public static final String MSG_SUCCESS_DELETE = "Xóa Thất bại";
+    
     
     //update password
     public static String SQL_UPDATE_PASSWORD = "UPDATE users SET Password=? WHERE Username=?";
@@ -45,6 +49,21 @@ public class Constant {
     public static String SQL_GET_ID_GROUP_ROLE = "SELECT Id FROM role_group WHERE Id_group_role=?";
     
     //Truỳen vào tên phòng ban và lấy ra Id phòng ban phục vụ cho việc Thêm mới User
-    public static String SQL_GET_ID_DEPARTMENT = "SELECT Id FROM department WHERE Id_department=?";
+    public static String SQL_GET_ID_DEPARTMENT = "SELECT Id FROM department WHERE Name=?";
+    
+    //Thêm mới dữ liệu vào bảng USER
+    public static String SQL_INSERT_INTO_USERS = "INSERT INTO users(Username, Password, Img, Name, Phone, Email, Note, Id_department, Id_role_group, Birthday, Gender, Address, Workday, Status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    
+    //Lấy ra tất cả user và role_group 
+//    public static String SQL_USER_AND_USER_GROUP = "SELECT u.*, rg.* FROM users u, role_group rg WHERE u.Id_role_group = rg.Id and rg.Id =?";
+
+    //cách đăng nhập không phải chọn quyền trước
+    public static String SQL_ROLE_BY_USER_PASS = "SELECT * FROM users WHERE Username=? and Password=?";
+    
+    //update USERS Call
+    public static String SQL_UPDATE_USER = "{call user_update(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+    
+    //delete user Call
+    public static String SQL_DELETE_USER = "{call user_delete(?)}";
 }
 
