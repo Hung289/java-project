@@ -149,47 +149,112 @@ public class UserDaoImpl implements UserDao{
         return 0;
     }
 
-//    @Override
-//    public void getUsersToTable(JTable tblUsers) {
-//        DatabaseHelper database = new DatabaseHelper();
-//        ArrayList<Users> lstUsers = new ArrayList<>();
-//        lstUsers.removeAll(lstUsers);
-//        Helper dbHelper = new Helper();
-//        String columnsName[] = {
-//            "STT","Mã User","Họ Tên", "SĐT", "Email", "Phòng Ban"
-//        };
-//        DefaultTableModel model = new DefaultTableModel(columnsName, 0);
-//        String param[] = new String[]{};
-//        try {
-//            ResultSet rs = database.selectData(Constant.SQL_ALL_USERS, param);
-//            Users users = new Users(rs.getInt("Id"), 
-//                    rs.getString("Username"), rs.getString("Password"), 
-//                    rs.getString("Img"), rs.getString("name"), 
-//                    rs.getString("Phone"), rs.getString("Email"), 
-//                    rs.getString("Note"), rs.getInt("Id_department"), rs.getInt("Id_role_group"), 
-//                    rs.getString("Birthday"), rs.getInt("Gender"), 
-//                    rs.getString("Address"), rs.getInt("Workday"), rs.getInt("Status"));
-//            lstUsers.add(users);
-//            int stt = 1;
-//            while (rs.next()) {                
-//                model.addRow(new Object[]{
-//                    stt++,
-//                    rs.getString("Username"),
-//                    rs.getString("Name"),
-//                    rs.getString("Phone"),
-//                    rs.getString("Email"),
-//                    dbHelper.getFieldByField("department", "Id_department", "Id",rs.getInt("Id_department")),
-////                    rs.getInt("Id_department")
-//                });
-//                
-//            }
-//            tblUsers.setModel(model);
-//                
-//            
-//        } catch (SQLException ex) {
-//            Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        
-//    }
+    @Override
+    public List<Users> getUserByRole(Object value) {
+        ResultSet rs = null;
+        DatabaseHelper db = new DatabaseHelper();
+        List<Users> lstUsers = new ArrayList<>();
+        Object param[] = new Object[]{
+            value
+        };
+        try {
+            rs = db.selectDataCall(Constant.SQL_USERS_BY_ROLE, param);
+            while (rs.next()) {                
+                Users users = new Users(
+                        rs.getInt("Id"), 
+                    rs.getString("Username"), rs.getString("Password"), 
+                    rs.getString("Img"), rs.getString("name"), 
+                    rs.getString("Phone"), rs.getString("Email"), 
+                    rs.getString("Note"), rs.getInt("Id_department"), rs.getInt("Id_role_group"), 
+                    rs.getString("Birthday"), rs.getInt("Gender"), 
+                    rs.getString("Address"), rs.getInt("Workday"), rs.getInt("Status"));
+                lstUsers.add(users);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lstUsers;
+    }
+
+    @Override
+    public List<Users> getUserByDepartment(Object value) {
+        ResultSet rs = null;
+        DatabaseHelper db = new DatabaseHelper();
+        List<Users> lstUsers = new ArrayList<>();
+        Object param[] = new Object[]{
+            value
+        };
+        try {
+            rs = db.selectDataCall(Constant.SQL_USERS_BY_DEPARTMENT, param);
+            while (rs.next()) {                
+                Users users = new Users(
+                        rs.getInt("Id"), 
+                    rs.getString("Username"), rs.getString("Password"), 
+                    rs.getString("Img"), rs.getString("name"), 
+                    rs.getString("Phone"), rs.getString("Email"), 
+                    rs.getString("Note"), rs.getInt("Id_department"), rs.getInt("Id_role_group"), 
+                    rs.getString("Birthday"), rs.getInt("Gender"), 
+                    rs.getString("Address"), rs.getInt("Workday"), rs.getInt("Status"));
+                lstUsers.add(users);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lstUsers;
+    }
+
+    @Override
+    public List<Users> getUserByStatus(Object value) {
+        ResultSet rs = null;
+        DatabaseHelper db = new DatabaseHelper();
+        List<Users> lstUsers = new ArrayList<>();
+        Object param[] = new Object[]{
+            value
+        };
+        try {
+            rs = db.selectDataCall(Constant.SQL_USERS_BY_STATUS, param);
+            while (rs.next()) {                
+                Users users = new Users(
+                        rs.getInt("Id"), 
+                    rs.getString("Username"), rs.getString("Password"), 
+                    rs.getString("Img"), rs.getString("name"), 
+                    rs.getString("Phone"), rs.getString("Email"), 
+                    rs.getString("Note"), rs.getInt("Id_department"), rs.getInt("Id_role_group"), 
+                    rs.getString("Birthday"), rs.getInt("Gender"), 
+                    rs.getString("Address"), rs.getInt("Workday"), rs.getInt("Status"));
+                lstUsers.add(users);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lstUsers;
+    }
+
+    @Override
+    public List<Users> searchLike(String filedWhere, String keyWord) {
+        ResultSet rs = null;
+        DatabaseHelper db = new DatabaseHelper();
+        List<Users> lstUsers = new ArrayList<>();
+        Object param[] = new Object[]{
+            
+        };
+        try {
+            rs = db.selectData("select * from users where "+ filedWhere + " like N'%" +keyWord+"%'", param);
+            while (rs.next()) {                
+                Users users = new Users(
+                        rs.getInt("Id"), 
+                    rs.getString("Username"), rs.getString("Password"), 
+                    rs.getString("Img"), rs.getString("name"), 
+                    rs.getString("Phone"), rs.getString("Email"), 
+                    rs.getString("Note"), rs.getInt("Id_department"), rs.getInt("Id_role_group"), 
+                    rs.getString("Birthday"), rs.getInt("Gender"), 
+                    rs.getString("Address"), rs.getInt("Workday"), rs.getInt("Status"));
+                lstUsers.add(users);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lstUsers;
+    }
     
 }

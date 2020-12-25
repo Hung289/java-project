@@ -284,6 +284,18 @@ public class Helper {
         return id;
     }
     
+    public Object getFieldByFieldString(String table, String fieldSelect, String fieldWhere, String fieldWhereValue) throws SQLException{
+        
+        int id = 0;
+        String param[] = new String[]{};
+        ResultSet rs = db.selectData("SELECT "+ fieldSelect +" FROM "+ table +" WHERE "+ fieldWhere +"=N'"+ fieldWhereValue +"'",param);
+
+        while (rs.next()) {            
+            id = rs.getInt(fieldSelect);
+        }
+        return id;
+    }
+    
     public void loadDataIntoComboBox(JComboBox cbo, String sql, String field) {
         
         try {

@@ -11,6 +11,8 @@ import bkap.utils.Constant;
 import bkap.utils.DatabaseHelper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,8 +23,9 @@ import java.util.logging.Logger;
 public class DepartmentDaoImpl implements DepartmentDao{
 
     @Override
-    public void insert(Department department) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int insert(Department department) {
+        DatabaseHelper db = new DatabaseHelper();
+        return 0;
     }
 
     @Override
@@ -53,6 +56,26 @@ public class DepartmentDaoImpl implements DepartmentDao{
             Logger.getLogger(DepartmentDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
+    }
+
+    @Override
+    public List<Department> getAllDepartment() {
+        DatabaseHelper db = new DatabaseHelper();
+        List<Department> lstDepartments = new ArrayList<>();
+        String param[] = new String[]{};
+        try {
+            ResultSet rs = db.selectDataCall(Constant.SQL_GET_ALL_DEPARTMENT, param);
+            while (rs.next()) {                
+                Department d = new Department(rs.getInt("Id"), 
+                        rs.getString("Id_department"), 
+                        rs.getString("Name"), 
+                        rs.getString("Note"));
+                lstDepartments.add(d);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DepartmentDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lstDepartments;
     }
     
 }

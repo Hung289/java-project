@@ -12,6 +12,7 @@ import bkap.utils.Helper;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import bkap.hotel.Login_Jdialog;
 
 /**
  *
@@ -23,6 +24,9 @@ public class DoiMatKhau extends javax.swing.JInternalFrame {
     /**
      * Creates new form DoiMatKhau
      */
+    
+    
+    
     public DoiMatKhau() {
         initComponents();
         dbHelper = new Helper();
@@ -176,7 +180,8 @@ public class DoiMatKhau extends javax.swing.JInternalFrame {
 
     private void txtMatKhauCuKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMatKhauCuKeyReleased
         // TODO add your handling code here:
-         if (txtMatKhauCu.getText().equals(DangNhap.txtpass.getText())) {
+        
+        if (txtMatKhauCu.getText().equals(Login_Jdialog.txtMatKhau.getText())) {
             LbXNMatKhauCu.setIcon(new ImageIcon(getClass().getResource("/bkap/icon/enable.png")));
             LbXNMatKhauCu.setText(null);
         } else {

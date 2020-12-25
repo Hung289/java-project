@@ -23,4 +23,8 @@ public interface UserDao {
     public boolean dangNhap(Users users);
     public int doiMatKhau(String matkhau,String tendn);
 //    public void getUsersToTable(JTable jTable);
+    public List<Users> getUserByRole(Object value);
+    public List<Users> getUserByDepartment(Object value);
+    public List<Users> getUserByStatus(Object value);
+    public List<Users> searchLike(String filedWhere, String keyWord);
 }

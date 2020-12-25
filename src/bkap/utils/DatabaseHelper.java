@@ -63,13 +63,11 @@ public class DatabaseHelper {
         return ps;
     }
     
-    private <E> CallableStatement getCallableStatement(boolean inSert, String sql, E...args) throws SQLException{
+    private <E> CallableStatement getCallableStatement(String sql, E...args) throws SQLException{
         CallableStatement cs;
-        if(inSert) {
+        
             cs = connection.prepareCall(sql);
-        }else{
-            cs = connection.prepareCall(sql);
-        }
+        
         
         for (int i = 0; i < args.length; i++) {
             if(args[i] instanceof Integer) {
@@ -95,13 +93,18 @@ public class DatabaseHelper {
         return ps.executeQuery();
     }
     
+    public <E> ResultSet selectDataCall(String sql, E...args) throws SQLException {
+        CallableStatement cs = getCallableStatement(sql, args);
+        return cs.executeQuery();
+    }
+    
     public <E> int updateData(String sql, E... args) throws SQLException {
         PreparedStatement ps = getPreparedStatement(false, sql, args);
         return ps.executeUpdate();
     }
     
     public <E> int updateDataCall(String sql, E...args) throws SQLException {
-        CallableStatement cs = getCallableStatement(false, sql, args);
+        CallableStatement cs = getCallableStatement(sql, args);
         return cs.executeUpdate();
     }
     
@@ -113,5 +116,16 @@ public class DatabaseHelper {
             return null;
         }
 //        return ps.executeUpdate();
+    }
+    
+    public <E> int insertDataCall(String sql, E... args) throws SQLException {
+        CallableStatement cs = getCallableStatement(sql, args);
+        return cs.executeUpdate();
+//        return ps.executeUpdate();
+    }
+    
+    public <E> int deleteDataCall(String sql, E...args) throws SQLException {
+        CallableStatement cs = getCallableStatement(sql, args);
+        return cs.executeUpdate();
     }
 }

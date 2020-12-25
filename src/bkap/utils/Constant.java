@@ -65,5 +65,56 @@ public class Constant {
     
     //delete user Call
     public static String SQL_DELETE_USER = "{call user_delete(?)}";
+    
+    //Lấy ra tất cả user theo Vai trò
+    public static String SQL_USERS_BY_ROLE = "{call user_search_role(?)}";
+    //Lấy ra tất cả user theo phòng ban
+    public static String SQL_USERS_BY_DEPARTMENT = "{call user_search_department(?)}";
+    //Lấy ra tất cả user theo trạng thái
+    public static String SQL_USERS_BY_STATUS = "{call user_search_status(?)}";
+    
+    
+    //Lấy ra tất cả department
+    public static String SQL_GET_ALL_DEPARTMENT = "{call get_all_department}";
+    //Insert department
+    public static String SQL_INSERT_DEPARTMENT = "{call insert_department}";
+    
+    
+    //    -------------------service--------------------------------------
+//    insert service 
+    public static String SQL_INSERT_INTO_SERVICE ="{call service_insert(?,?)}";
+//    select service 
+    public static String SQL_SELECT_SERVICE = "{call service_select()}";
+//    select service by id 
+    public static String SQL_SELECT_SERVICE_BY_ID ="{call service_selectById(?)}";
+//    update service 
+    public static String SQL_UPDATE_SERVICE ="{call service_update(?,?,?)}";
+//    delete service 
+    public static String SQL_DELETE_SERVICE ="{call service_delete(?)}";
+    
+    //    -------------------Infrastructure--------------------------------------
+//    insert service 
+    public static String SQL_INSERT_INTO_INFRASTRUCTURE ="{call infrastructure_insert(?,?)}";
+//    select service 
+    public static String SQL_SELECT_INFRASTRUCTURE = "{call infrastructure_select()}";
+//    select service by id 
+    public static String SQL_SELECT_INFRASTRUCTURE_BY_ID ="{call infrastructure_selectById(?)}";
+//    update service 
+    public static String SQL_UPDATE_INFRASTRUCTURE ="{call infrastructure_update(?,?,?)}";
+//    delete service 
+    public static String SQL_DELETE_INFRASTRUCTURE ="{call infrastructure_delete(?)}";
+    
+//    ----------------------------category rooom-----------------------------------
+    // insert categoryroom call
+    public static String SQL_INSERT_CATEGORYROOM = "{call insertcrb(?,?)}";
+    
+    // select categoryroom call
+    public static String SQL_SELECT_CATEGORYROOM = "{call getdatacrb}";
+    
+    // update categoryroom call
+    public static String SQL_UPDATE_CATEGORYROOM = "{call updatecrb(?,?,?)}";
+    
+    // delete categoryroom call
+    public static String SQL_DELETE_CATEGORYROOM = "{call deletecrb(?)}";
 }
 

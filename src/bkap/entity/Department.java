@@ -22,6 +22,14 @@ public class Department {
         this.note = note;
     }
 
+    public Department(String id_department, String name, String note) {
+        this.id_department = id_department;
+        this.name = name;
+        this.note = note;
+    }
+    
+    
+
     public Department() {
     }
 

@@ -6,10 +6,13 @@
 package bkap.hotel;
 
 import bkap.hotel.DangNhap;
+import bkap.internalframe.CategoryRoom_JIF;
+import bkap.internalframe.Department_JIF;
 //import bkap.internalframe.DangNhap;
 import bkap.internalframe.DoiMatKhau;
+import bkap.internalframe.Infrastructure_JIF;
+import bkap.internalframe.Service_JIF;
 import bkap.internalframe.User;
-import bkap.projectHotel.internalFrame.Service_JInternalFrame;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -45,6 +48,14 @@ public class MainFrame extends javax.swing.JFrame {
             setTitle("Quản lý khách sạn - " + user);
             setRoleGUI(dangNhap.getLevel());
         }
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
     }
     
     private void setRoleGUI(int role) {
@@ -103,7 +114,10 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jmiUser = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jmiDichVu = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("BKAP - Phần mềm quản lý khách sạn");
@@ -165,6 +179,23 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu1.add(jmiUser);
 
+        jMenuItem5.setText("Danh Mục Phòng");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem5);
+
+        jMenuItem3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/icon/icons8-department-store-18.png"))); // NOI18N
+        jMenuItem3.setText("Phòng Ban");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem3);
+
         jmiDichVu.setText("Dịch Vụ");
         jmiDichVu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -172,6 +203,14 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jmiDichVu);
+
+        jMenuItem4.setText("Cơ Sở Vật Chất");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem4);
 
         jMenuBar1.add(jMenu1);
 
@@ -228,12 +267,39 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jmiDichVuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmiDichVuActionPerformed
         // TODO add your handling code here:
-        Service_JInternalFrame jInternalFrame = new Service_JInternalFrame();
+        Service_JIF jInternalFrame = new Service_JIF();
         if(!checkOnly(jInternalFrame)) {
             centerJIF(jInternalFrame);
             desktopPaneMain.add(jInternalFrame);
         }
     }//GEN-LAST:event_jmiDichVuActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        Department_JIF department = new Department_JIF();
+        if(!checkOnly((department))) {
+            centerJIF(department);
+            desktopPaneMain.add(department);
+        }
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        Infrastructure_JIF infrastructure_JIF = new Infrastructure_JIF();
+        if(!checkOnly((infrastructure_JIF))) {
+            centerJIF(infrastructure_JIF);
+            desktopPaneMain.add(infrastructure_JIF);
+        }
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        CategoryRoom_JIF categoryRoom_JIF = new CategoryRoom_JIF();
+        if(!checkOnly((categoryRoom_JIF))) {
+            centerJIF(categoryRoom_JIF);
+            desktopPaneMain.add(categoryRoom_JIF);
+        }
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -294,6 +360,9 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JMenuItem jmiDichVu;

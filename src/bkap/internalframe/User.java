@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -69,9 +70,11 @@ public class User extends javax.swing.JInternalFrame {
         }
         //Vừa vào thì load dữ liệu của vai trò cho combobox quyền của người dùng
         helper.loadDataIntoComboBox(cboVaiTro, Constant.SQL_ALL_ROLES, "Id_group_role");
-        
+        helper.loadDataIntoComboBox(cboVaiTroTk, Constant.SQL_ALL_ROLES, "Id_group_role");
         //Vừa vào thì load dữ liệu của phòng ban vào combobox phòng ban
         helper.loadDataIntoComboBox(cboPhongBan, Constant.SQL_ALL_DEPARTMENT, "Name");
+        helper.loadDataIntoComboBox(cboPhongBanTk, Constant.SQL_ALL_DEPARTMENT, "Name");
+        
     }
     
     public void loadTableUsers() throws SQLException {
@@ -141,6 +144,7 @@ public class User extends javax.swing.JInternalFrame {
                 }
             }
         });
+        
     }
 
     /**
@@ -224,6 +228,7 @@ public class User extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setResizable(true);
+        setTitle("Nhân Viên");
 
         topPanel.setBackground(new java.awt.Color(204, 255, 153));
         topPanel.setLayout(new java.awt.BorderLayout());
@@ -370,12 +375,11 @@ public class User extends javax.swing.JInternalFrame {
                         .addComponent(chkTrangthai)
                         .addGap(32, 32, 32))
                     .addGroup(pThongTinNVLayout.createSequentialGroup()
-                        .addGroup(pThongTinNVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pThongTinNVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(txtSoDienThoai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel7)
-                                .addComponent(jLabel1))
-                            .addComponent(lblId, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pThongTinNVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtSoDienThoai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel1)
+                            .addComponent(lblId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pThongTinNVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pThongTinNVLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -435,6 +439,11 @@ public class User extends javax.swing.JInternalFrame {
         btnDondep.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/icon/eraser.png"))); // NOI18N
         btnDondep.setText("Dọn dẹp");
         btnDondep.setPreferredSize(new java.awt.Dimension(90, 30));
+        btnDondep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDondepActionPerformed(evt);
+            }
+        });
 
         btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/icon/delete.png"))); // NOI18N
         btnXoa.setText("Xóa");
@@ -501,8 +510,8 @@ public class User extends javax.swing.JInternalFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(pThongTinNV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pThongTinNV, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -511,7 +520,7 @@ public class User extends javax.swing.JInternalFrame {
                     .addComponent(btnThemMoi, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Thông Tin Nhân Viên", jPanel1);
@@ -525,18 +534,50 @@ public class User extends javax.swing.JInternalFrame {
             }
         });
 
+        txtKeyWorkTK.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtKeyWorkTKKeyReleased(evt);
+            }
+        });
+
         cboVaiTroTk.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboVaiTroTk.setEnabled(false);
+        cboVaiTroTk.setName("vaitro"); // NOI18N
+        cboVaiTroTk.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cboVaiTroTkItemStateChanged(evt);
+            }
+        });
 
         cboPhongBanTk.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboPhongBanTk.setEnabled(false);
+        cboPhongBanTk.setName("phongban"); // NOI18N
+        cboPhongBanTk.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cboPhongBanTkItemStateChanged(evt);
+            }
+        });
         cboPhongBanTk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboPhongBanTkActionPerformed(evt);
             }
         });
 
-        btnTK.setText("Tìm Kiếm");
+        btnTK.setText("Bỏ Lọc");
+        btnTK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTKActionPerformed(evt);
+            }
+        });
 
-        cboTrangThaiTk.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboTrangThaiTk.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- TT --", "Ẩn", "Hiện" }));
+        cboTrangThaiTk.setEnabled(false);
+        cboTrangThaiTk.setName("trangthai"); // NOI18N
+        cboTrangThaiTk.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cboTrangThaiTkItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -762,15 +803,181 @@ public class User extends javax.swing.JInternalFrame {
             txtKeyWorkTK.setText(null);
             cboPhongBanTk.setEnabled(false);
             cboTrangThaiTk.setEnabled(true);
-        }else{
+        }else if(cboTieuChiTim.getSelectedItem().equals("-- Tiêu chí --")){
             cboVaiTroTk.setEnabled(false);
             txtKeyWorkTK.setEnabled(true);
             cboPhongBanTk.setEnabled(false);
             cboTrangThaiTk.setEnabled(false);
+        }else{ 
+            txtKeyWorkTK.setEnabled(true);
+            cboVaiTroTk.setEnabled(false);
+            cboVaiTroTk.setSelectedIndex(0);
+            cboPhongBanTk.setEnabled(false);
+            cboPhongBanTk.setSelectedIndex(0);
+            cboTrangThaiTk.setEnabled(false);
+            cboTrangThaiTk.setSelectedIndex(0);
         }
     }//GEN-LAST:event_cboTieuChiTimItemStateChanged
 
+    private void cboVaiTroTkItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboVaiTroTkItemStateChanged
+        // TODO add your handling code here:
+        if(cboVaiTroTk.getSelectedIndex() != 0) {
+            try {
+                String tenVaitro = cboVaiTroTk.getSelectedItem().toString();
+                int Id = (int) helper.getFieldByFieldString("role_group", "Id", "Id_group_role" ,tenVaitro);
+                searchWhere(tblUserTK, Id,1);
+            } catch (SQLException ex) {
+                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_cboVaiTroTkItemStateChanged
+
+    private void cboPhongBanTkItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboPhongBanTkItemStateChanged
+        // TODO add your handling code here:
+        if(cboPhongBanTk.getSelectedIndex() != 0) {
+            
+            try {
+                String tenPhongBan = cboPhongBanTk.getSelectedItem().toString();
+                int Id = (int) helper.getFieldByFieldString("department", "Id", "Name", tenPhongBan);
+                searchWhere(tblUserTK, Id, 2);
+            } catch (SQLException ex) {
+                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_cboPhongBanTkItemStateChanged
+
+    private void cboTrangThaiTkItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboTrangThaiTkItemStateChanged
+        // TODO add your handling code here:
+        if(cboTrangThaiTk.getSelectedIndex() != 0) {
+            int Id = 0;
+            try {
+                String tenTrangThai = cboTrangThaiTk.getSelectedItem().toString();
+                if(tenTrangThai == "Hiện") {
+                    Id = 1;
+                }else{
+                    Id = 0;
+                }   
+                searchWhere(tblUserTK, Id, 3);
+            } catch (SQLException ex) {
+                Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_cboTrangThaiTkItemStateChanged
+
+    private void txtKeyWorkTKKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtKeyWorkTKKeyReleased
+        // TODO add your handling code here:
+        String tieuchi = cboTieuChiTim.getSelectedItem().toString();
+        String keyword = txtKeyWorkTK.getText();
+        if(tieuchi.equals("Id")) {
+            if(!keyword.isEmpty()){
+                try {
+                    searchlike(tblUserTK, "Id", keyword);
+                } catch (SQLException ex) {
+                    Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }else if(tieuchi.equals("Tên")) {
+            if(!keyword.isEmpty()) {
+                try {
+                    searchlike(tblUserTK, "Name", keyword);
+                } catch (SQLException ex) {
+                    Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_txtKeyWorkTKKeyReleased
+
+    private void btnTKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTKActionPerformed
+        // TODO add your handling code here:
+        cboTieuChiTim.setSelectedIndex(0);
+        cboVaiTroTk.setSelectedIndex(0);
+        cboPhongBanTk.setSelectedIndex(0);
+        txtKeyWorkTK.setText(null);
+        try {
+            loadTableUsers();
+        } catch (SQLException ex) {
+            Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_btnTKActionPerformed
+
+    private void btnDondepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDondepActionPerformed
+        // TODO add your handling code here:
+        clearInput();
+        btnThemMoi.setEnabled(true);
+        btnSua.setEnabled(false);
+        btnXoa.setEnabled(false);
+        btnDondep.setEnabled(false);
+        
+    }//GEN-LAST:event_btnDondepActionPerformed
+
+    public void clearInput() {
+        lblId.setText("...");
+        txtDiaChi.setText(null);
+        txtEmail.setText(null);
+        txtMatKhau.setText(null);
+        txtNgaySinh.setDate(null);
+        txtSoDienThoai.setText(null);
+        txtSoNgayLam.setText(null);
+        txtTen.setText(null);
+        txtTenDangNhap.setText(null);
+        cboVaiTro.setSelectedIndex(0);
+        cboPhongBan.setSelectedIndex(0);
+    }
     
+    public void searchWhere(JTable tbl , Object whereValue, int check) throws SQLException {
+        
+        String columnsName[] = {
+            "Id","Họ Tên", "SĐT", "Email", "Ngày sinh", "Giới tính", "Phòng Ban", "Trạng thái"
+        };
+        dtm = new DefaultTableModel(columnsName, 0);
+        dtm.getDataVector().removeAllElements();//reset toafn bo du liru bang
+        if(check == 1){
+            listUsers = daoImpl.getUserByRole(whereValue);
+        }else if(check == 2) {
+            listUsers = daoImpl.getUserByDepartment(whereValue);
+        }else if(check == 3) {
+            listUsers = daoImpl.getUserByStatus(whereValue);
+        }
+        
+        for (int i = 0; i < listUsers.size(); i++) {
+            Users users = listUsers.get(i);
+            Vector row = new Vector<>();
+            row.add(users.getId());
+            row.add(users.getName());
+            row.add(users.getPhone());
+            row.add(users.getEmail());
+            row.add(users.getBirthday());
+            row.add((users.getGender() == 1) ? "Nam" : "Nữ");
+            row.add(helper.getFieldByField("department", "Id_department", "Id",users.getIdDepartment()));
+            row.add((users.getStatus() == 1) ? "Hiện" : "Ẩn");
+            dtm.addRow(row);
+        }
+        tbl.setModel(dtm);
+    }
+    
+    public void searchlike(JTable tbl, String fieldWhere, String keyword) throws SQLException{
+        String columnsName[] = {
+            "Id","Họ Tên", "SĐT", "Email", "Ngày sinh", "Giới tính", "Phòng Ban", "Trạng thái"
+        };
+        dtm = new DefaultTableModel(columnsName, 0);
+        dtm.getDataVector().removeAllElements();//reset toafn bo du liru bang
+        listUsers = daoImpl.searchLike(fieldWhere, keyword);
+        for (int i = 0; i < listUsers.size(); i++) {
+            Users users = listUsers.get(i);
+            Vector row = new Vector<>();
+            row.add(users.getId());
+            row.add(users.getName());
+            row.add(users.getPhone());
+            row.add(users.getEmail());
+            row.add(users.getBirthday());
+            row.add((users.getGender() == 1) ? "Nam" : "Nữ");
+            row.add(helper.getFieldByField("department", "Id_department", "Id",users.getIdDepartment()));
+            row.add((users.getStatus() == 1) ? "Hiện" : "Ẩn");
+            dtm.addRow(row);
+        }
+        tbl.setModel(dtm);
+    }
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
