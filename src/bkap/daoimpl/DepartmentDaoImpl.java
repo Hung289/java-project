@@ -25,17 +25,47 @@ public class DepartmentDaoImpl implements DepartmentDao{
     @Override
     public int insert(Department department) {
         DatabaseHelper db = new DatabaseHelper();
+        String param[] = new String[]{
+            department.getId_department(),department.getName(),department.getNote()
+        };
+        int kq = 0;
+        try {
+            kq = db.insertDataCall(Constant.SQL_INSERT_DEPARTMENT, param);
+        } catch (SQLException ex) {
+            Logger.getLogger(DepartmentDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return kq;
+    }
+
+    @Override
+    public int update(Department department) {
+        DatabaseHelper db = new DatabaseHelper();
+        Object param[] = new Object[]{
+            department.getId(),department.getId_department(),department.getName(),department.getNote()
+        };
+        int kq = 0;
+        try {
+            kq = db.updateDataCall(Constant.SQL_UPDATE_DEPARTMENT, param);     
+        } catch (SQLException ex) {
+            Logger.getLogger(DepartmentDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return kq;
+                
+    }
+
+    @Override
+    public int delete(int id) {
+        DatabaseHelper db = new DatabaseHelper();
+        Object param[] = new Object[]{id};
+        try {
+            int kq = db.updateDataCall(Constant.SQL_DELETE_DEPARTMENT, param);
+            return kq;
+        } catch (Exception ex) {
+            Logger.getLogger(DepartmentDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
         return 0;
-    }
-
-    @Override
-    public void update(Department department) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void delete(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            
     }
 
     @Override

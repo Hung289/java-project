@@ -743,6 +743,7 @@ public class User extends javax.swing.JInternalFrame {
                 listUsers.remove(currentRow);
                 dtm.removeRow(currentRow);
                 dtm.fireTableDataChanged();
+                loadData();
             }else {
                  DialogThongBao.showError(this, Constant.MSG_SUCCESS_DELETE , Constant.MSG_SUCCESS_DELETE);
             }

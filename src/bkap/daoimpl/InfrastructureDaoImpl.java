@@ -6,13 +6,17 @@
 package bkap.daoimpl;
 
 import bkap.dao.InfrastructureDao;
+import bkap.entity.InfrasQuantity;
 import bkap.entity.Infrastructure;
 import bkap.entity.Infrastructure;
 import bkap.utils.Constant;
 import bkap.utils.DatabaseHelper;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -110,6 +114,28 @@ public class InfrastructureDaoImpl implements InfrastructureDao{
             e.printStackTrace();
         }
         return obj; 
+    }
+
+    @Override
+    public List<InfrasQuantity> getNameInfrasByIdRoom(int id) {
+        DatabaseHelper db = new DatabaseHelper();
+        List<InfrasQuantity> list = new ArrayList<>();
+        Integer param[] = new Integer[]{
+            id
+        };
+        try {
+            ResultSet rs = db.selectDataCall(Constant.SQL_SELECT_INFRASTRUCTURE_BY_ID_ROOM, param);
+            while (rs.next()) {  
+                InfrasQuantity infrasQuantity = new InfrasQuantity(rs.getString("Name"), rs.getInt("Quantity"));
+                list.add(infrasQuantity);
+            }
+            
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(InfrastructureDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+        
     }
     
 }

@@ -73,11 +73,16 @@ public class Constant {
     //Lấy ra tất cả user theo trạng thái
     public static String SQL_USERS_BY_STATUS = "{call user_search_status(?)}";
     
+    //---------------------DEPARTMENT-------------------------------
     
     //Lấy ra tất cả department
     public static String SQL_GET_ALL_DEPARTMENT = "{call get_all_department}";
     //Insert department
-    public static String SQL_INSERT_DEPARTMENT = "{call insert_department}";
+    public static String SQL_INSERT_DEPARTMENT = "{call insert_department(?,?,?)}";
+    //update department
+    public static String SQL_UPDATE_DEPARTMENT = "{call update_department(?,?,?,?)}";
+    //delete department
+    public static String SQL_DELETE_DEPARTMENT = "{call delete_department(?)}";
     
     
     //    -------------------service--------------------------------------
@@ -103,6 +108,8 @@ public class Constant {
     public static String SQL_UPDATE_INFRASTRUCTURE ="{call infrastructure_update(?,?,?)}";
 //    delete service 
     public static String SQL_DELETE_INFRASTRUCTURE ="{call infrastructure_delete(?)}";
+    //select Infrastructure theo Id room
+    public static String SQL_SELECT_INFRASTRUCTURE_BY_ID_ROOM = "{call select_name_infras_by_id_room(?)}";
     
 //    ----------------------------category rooom-----------------------------------
     // insert categoryroom call
@@ -116,5 +123,32 @@ public class Constant {
     
     // delete categoryroom call
     public static String SQL_DELETE_CATEGORYROOM = "{call deletecrb(?)}";
+    //get_id_cateRoom_by_name_room
+    public static String SQL_GET_ID_BY_CATEGORYROOM = "{call get_id_by_name_cateRoom(?)}";
+    
+    //------------------------------room------------------------------------
+    //insert room
+    public static String SQL_INSERT_ROOM = "{call insertRoom(?,?,?,?,?,?,?,?,?)}";
+    
+    //select room
+    public static String SQL_SELECT_ROOM = "{call selectAllRoom}";
+    //update room
+    public static String SQL_UPDATE_ROOM = "{call update_room(?,?,?,?,?,?,?,?,?)}";
+    
+    //delete room
+    public static String SQL_DELETE_ROOM = "{call delete_room(?)}";
+    
+    //---------------------------infrastructure room------------------------------
+    //insert infras_room
+    public static String SQL_INSERT_INFRASTRUCTURE_ROOM = "{call insert_infrastructure_room(?,?,?)}";
+    
+    //update infras_room
+    public static String SQL_UPDATE_INFRASTRUVTURE_ROOM = "{call update_infras_room(?,?,?)}";
+    
+    //select number record by id room
+    public static String SQL_SELECT_RECORD = "{call select_count_by_id_room(?)}";
+    
+    //delete infras_room
+    public static String SQL_DELETE_INFRASTRUCTURE_ROOM = "{call delete_infras_room_by_roomid(?)}";
 }
 

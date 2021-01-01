@@ -137,6 +137,11 @@ public class Login_Jdialog extends javax.swing.JDialog {
         txtTenDN.setText("nthung");
         txtTenDN.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(204, 204, 204)));
         txtTenDN.setOpaque(false);
+        txtTenDN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtTenDNActionPerformed(evt);
+            }
+        });
 
         txtMatKhau.setForeground(new java.awt.Color(255, 255, 255));
         txtMatKhau.setText("123123");
@@ -285,6 +290,10 @@ public class Login_Jdialog extends javax.swing.JDialog {
         //       Đóng chương trình
         System.exit(0);
     }//GEN-LAST:event_btn_closeMouseClicked
+
+    private void txtTenDNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTenDNActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTenDNActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btn_close;

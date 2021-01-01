@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package bkap.utils;
+import bkap.entity.Room;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -13,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.CallableStatement;
+
 /**
  *
  * @author admi
@@ -127,5 +129,20 @@ public class DatabaseHelper {
     public <E> int deleteDataCall(String sql, E...args) throws SQLException {
         CallableStatement cs = getCallableStatement(sql, args);
         return cs.executeUpdate();
+    }
+    
+    public int insertRoom(String sql, Room room) throws SQLException {
+        CallableStatement cs = connection.prepareCall(sql);
+        cs.setString(1, room.getName());
+        cs.setFloat(2, room.getPrice());
+        cs.setFloat(3, room.getAcreage());
+        cs.setString(4, room.getImg());
+        cs.setInt(5, room.getPeople());
+        cs.setString(6, room.getNote());
+        cs.setInt(7, room.getStatus());
+        cs.setInt(8, room.getCategoryRoom());
+        cs.registerOutParameter(9, java.sql.Types.INTEGER);
+        cs.executeUpdate();
+        return cs.getInt(9);
     }
 }

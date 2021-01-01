@@ -15,7 +15,7 @@ import java.util.List;
 public interface DepartmentDao {
     public List<Department> getAllDepartment();
     public int insert(Department department);
-    public void update(Department department);
-    public void delete(int id);
+    public int update(Department department);
+    public int delete(int id);
     public int getIdByDepartment(String idDepartment);
 }

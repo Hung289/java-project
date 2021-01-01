@@ -93,5 +93,24 @@ public class CategoryRoomDaoImpl implements CategoryRoomDao {
         } 
         return listCR;
     }
+
+    @Override
+    public int GetIdByNameCateRoom(String nameCate) {
+        DatabaseHelper db = new DatabaseHelper();
+        
+        
+        String param[] = new String[]{nameCate};
+        int id = 0;
+        try {
+            ResultSet data = db.selectDataCall(Constant.SQL_GET_ID_BY_CATEGORYROOM, param);
+            while (data.next()) {                
+                id = data.getInt("Id");
+            }
+            return id;
+        } catch (SQLException ex) {
+            Logger.getLogger(CategoryRoomDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
     
 }

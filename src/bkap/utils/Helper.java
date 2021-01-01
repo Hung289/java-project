@@ -20,11 +20,14 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
@@ -306,6 +309,8 @@ public class Helper {
                 model.addElement("--Vai Trò--");
             }else if(cbo.getName().equals("phongban")) {
                 model.addElement("--Phòng Ban--");
+            }else if(cbo.getName().equals("cateRoom")) {
+                model.addElement("--Danh Mục Phòng");
             }
             while (rs.next()) {                
                 model.addElement(rs.getString(field));
@@ -316,45 +321,15 @@ public class Helper {
         }
         
     }
-//    public ArrayList<Vector> getListUser(int maVT) throws SQLException {
-//        
-//        ArrayList<Vector> userList = new ArrayList<>();
-//        Vector<Object> obj;
-//        
-//        Integer param[] = new Integer[]{maVT};
-//        ResultSet rs = db.selectData(Constant.SQL_USER_AND_USER_GROUP, param);
-//        while (rs.next()) {
-//            obj = new Vector<>();
-//            obj.add(rs.getString("Name"));
-//            obj.add(rs.getString("Id_group_role"));
-//            obj.add(rs.getString("Username"));
-//            obj.add(rs.getString("Password"));
-//            userList.add(obj);
-//        }
-//        return userList;
-//    }
+    
+    public ResultSet loadDataIntoList(String sql) throws SQLException {
+        
+        String param[] = new String[]{};
+        ResultSet rs = db.selectDataCall(sql, param);
+        return rs;
+        
+    }
 //    
-//    public boolean checkUser(int maVT, String username, String pass) throws SQLException {
-//        boolean check = false;
-//        ArrayList<Vector> userList = getListUser(maVT);
-//        Vector<Object> user;
-//        for (Vector u : userList) {
-//            System.out.println("-------"+u.get(2));
-//            System.out.println("-------"+u.get(3));
-//            System.out.println("===============");
-//            System.out.println("-------"+username);
-//            System.out.println("-------"+pass);
-//            if (username.equals(u.get(2)) && pass.equals(u.get(3))) {
-//                check = true;
-//                break;
-//            } else {
-//                check = false;
-//                break;
-//            }
-//        }
-//        System.out.println("bkap.utils.Helper.checkUser()"+check);
-//        return check;
-//    }
     
     public int checkUser(String username, String pass) throws SQLException {
         boolean check = false;

@@ -5,6 +5,7 @@
  */
 package bkap.dao;
 
+import bkap.entity.InfrasQuantity;
 import bkap.entity.Infrastructure;
 import java.util.List;
 
@@ -18,4 +19,5 @@ public interface InfrastructureDao {
     public int delete(int id);
     public List<Infrastructure> getAllInfrastructure();
     public Infrastructure getInfrastructureById(int id);
+    public List<InfrasQuantity> getNameInfrasByIdRoom(int id);
 }

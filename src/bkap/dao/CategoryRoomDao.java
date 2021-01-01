@@ -19,4 +19,5 @@ public interface CategoryRoomDao {
     public int Insert(CategoryRoom CR);
     public int Update(CategoryRoom CR);
     public int Delete(int id);
+    public int GetIdByNameCateRoom(String nameCate);
 }

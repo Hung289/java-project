@@ -10,7 +10,12 @@ import bkap.utils.Helper;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import bkap.entity.Department;
+import bkap.utils.Constant;
+import bkap.utils.DialogThongBao;
 import java.util.Vector;
+import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 
 /**
@@ -22,12 +27,15 @@ public class Department_JIF extends javax.swing.JInternalFrame {
     Helper helper;
     DepartmentDaoImpl departmentDaoImpl;
     List<Department> lstDepartment;
+    private int pos = -1;
     /**
      * Creates new form Department
      */
     public Department_JIF() {
         initComponents();
         loadData();
+        btnCapNhat.setEnabled(false);
+        btnXoa.setEnabled(false);
     }
     
     private void loadData() {
@@ -53,6 +61,23 @@ public class Department_JIF extends javax.swing.JInternalFrame {
             dtm.addRow(row);
         }
         tblDepartment.setModel(dtm);
+        
+        tblDepartment.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                btnThemMoi.setEnabled(false);
+                btnCapNhat.setEnabled(true);
+                btnXoa.setEnabled(true);
+                if(tblDepartment.getSelectedRow() >= 0 && tblDepartment.getSelectedRow() <lstDepartment.size()){
+                    pos = tblDepartment.getSelectedRow();
+                    lblId.setText(String.valueOf(lstDepartment.get(pos).getId()));
+                    txtNameSub.setText(lstDepartment.get(pos).getId_department());
+                    txtName.setText(lstDepartment.get(pos).getName());
+                    teaNote.setText(lstDepartment.get(pos).getNote());
+                }
+            }
+            
+        });
     }
 
     /**
@@ -74,7 +99,6 @@ public class Department_JIF extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         teaNote = new javax.swing.JTextArea();
         btnThemMoi = new javax.swing.JButton();
-        btnLamMoi = new javax.swing.JButton();
         btnCapNhat = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
         lblId = new javax.swing.JLabel();
@@ -110,17 +134,23 @@ public class Department_JIF extends javax.swing.JInternalFrame {
             }
         });
 
-        btnLamMoi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/icon/update.png"))); // NOI18N
-        btnLamMoi.setText("Làm Mới");
-        btnLamMoi.setPreferredSize(new java.awt.Dimension(100, 30));
-
         btnCapNhat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/icon/edit.png"))); // NOI18N
         btnCapNhat.setText("Cập Nhật");
         btnCapNhat.setPreferredSize(new java.awt.Dimension(100, 30));
+        btnCapNhat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCapNhatActionPerformed(evt);
+            }
+        });
 
         btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/icon/delete.png"))); // NOI18N
         btnXoa.setText("Xóa");
         btnXoa.setPreferredSize(new java.awt.Dimension(100, 30));
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
 
         lblId.setText("...");
 
@@ -132,12 +162,10 @@ public class Department_JIF extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(formPhongBanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(formPhongBanLayout.createSequentialGroup()
-                        .addGap(0, 145, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnThemMoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(formPhongBanLayout.createSequentialGroup()
@@ -150,7 +178,7 @@ public class Department_JIF extends javax.swing.JInternalFrame {
                         .addGroup(formPhongBanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNameSub)
                             .addComponent(txtName)
-                            .addComponent(jScrollPane1)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 477, Short.MAX_VALUE)
                             .addGroup(formPhongBanLayout.createSequentialGroup()
                                 .addComponent(lblId)
                                 .addGap(0, 0, Short.MAX_VALUE)))))
@@ -175,10 +203,9 @@ public class Department_JIF extends javax.swing.JInternalFrame {
                 .addGroup(formPhongBanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 21, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 25, Short.MAX_VALUE)
                 .addGroup(formPhongBanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThemMoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnLamMoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnCapNhat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
@@ -250,15 +277,66 @@ public class Department_JIF extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         if(helper.checkFormValid(formPhongBan)){
             prepareData();
+            departmentDaoImpl = new DepartmentDaoImpl();
             Department d = new Department(nameSub, name, note);
-            
+            int kq = departmentDaoImpl.insert(d);
+            if(kq > 0) {
+                DialogThongBao.showSuccess(this, Constant.MSG_SUCCESS_INSERT_USERS, Constant.MSG_SUCCESS_INSERT_USERS);
+            }
+            clearInput();
+            loadData();
+        }else{
+            helper.messageNullValuesForForm(formPhongBan);
         }
     }//GEN-LAST:event_btnThemMoiActionPerformed
 
+    private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed
+        // TODO add your handling code here:
+        
+        if(helper.checkFormValid(formPhongBan)) {
+            prepareData();
+            Department d = new Department(id, nameSub, name, note);
+            int kq = departmentDaoImpl.update(d);
+            if(kq > 0) {
+                DialogThongBao.showSuccess(this, Constant.MSG_SUCCESS_UPDATE, Constant.MSG_SUCCESS_UPDATE);
+            }
+            loadData();
+            clearInput();
+            btnCapNhat.setEnabled(false);
+            btnThemMoi.setEnabled(true);
+            btnXoa.setEnabled(false);
+        }else{
+            helper.messageNullValuesForForm(formPhongBan);
+        }
+    }//GEN-LAST:event_btnCapNhatActionPerformed
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        // TODO add your handling code here:
+        if(DialogThongBao.showAlert(this, Constant.MSG_XAC_NHAN_XOA, txtName.getText()) == JOptionPane.OK_OPTION){
+            departmentDaoImpl = new DepartmentDaoImpl();
+            if(departmentDaoImpl.delete(Integer.parseInt(lblId.getText())) > 0) {
+                lstDepartment.remove(pos);
+                dtm.removeRow(pos);
+                dtm.fireTableDataChanged();
+                clearInput();
+                btnCapNhat.setEnabled(false);
+                btnThemMoi.setEnabled(true);
+                btnXoa.setEnabled(false);
+            }else{
+                DialogThongBao.showError(this, Constant.MSG_SUCCESS_DELETE , Constant.MSG_SUCCESS_DELETE);
+            }
+        }
+    }//GEN-LAST:event_btnXoaActionPerformed
+
+    public void clearInput() {
+        lblId.setText("...");
+        txtNameSub.setText(null);
+        txtName.setText(null);
+        teaNote.setText(null);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCapNhat;
-    private javax.swing.JButton btnLamMoi;
     private javax.swing.JButton btnThemMoi;
     private javax.swing.JButton btnXoa;
     private javax.swing.JPanel formPhongBan;
