@@ -3,13 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Java_desktop/ManagerHotel/src/bkap/daoimpl/RoomDaoImpl.java</file>
-            <file>file:/D:/Java_desktop/ManagerHotel/src/bkap/utils/Constant.java</file>
-            <file>file:/D:/Java_desktop/ManagerHotel/src/bkap/internalframe/Room_JIF.java</file>
-            <file>file:/D:/Java_desktop/ManagerHotel/src/bkap/daoimpl/UserDaoImpl.java</file>
-            <file>file:/D:/Java_desktop/ManagerHotel/src/bkap/dao/InfrastrctureRoomDao.java</file>
-            <file>file:/D:/Java_desktop/ManagerHotel/src/bkap/utils/DatabaseHelper.java</file>
-            <file>file:/D:/Java_desktop/ManagerHotel/src/bkap/daoimpl/InfrastructureRoomDaoImpl.java</file>
+            <file>file:/D:/Java_desktop/ManagerHotel/src/bkap/internalframe/OrderService.java</file>
         </group>
     </open-files>
 </project-private>

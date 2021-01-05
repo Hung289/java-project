@@ -310,7 +310,13 @@ public class Helper {
             }else if(cbo.getName().equals("phongban")) {
                 model.addElement("--Phòng Ban--");
             }else if(cbo.getName().equals("cateRoom")) {
-                model.addElement("--Danh Mục Phòng");
+                model.addElement("--Danh Mục Phòng--");
+            }else if(cbo.getName().equals("loaiphongtk")) {
+                model.addElement("--Loại Phòng--");
+            }else if(cbo.getName().equals("cateRoomAllRoom")) {
+                model.addElement("--Loại Phòng--");
+            }else if(cbo.getName().equals("cateShowAllRoom")) {
+                model.addElement("--Loại Phòng--");
             }
             while (rs.next()) {                
                 model.addElement(rs.getString(field));

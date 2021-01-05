@@ -5,18 +5,25 @@
  */
 package bkap.hotel;
 
+import bkap.entity.Service;
 import bkap.hotel.DangNhap;
+import bkap.internalframe.AdvancedSearch_JIF;
 import bkap.internalframe.CategoryRoom_JIF;
 import bkap.internalframe.Department_JIF;
 //import bkap.internalframe.DangNhap;
 import bkap.internalframe.DoiMatKhau;
 import bkap.internalframe.Infrastructure_JIF;
+import bkap.internalframe.OrderRoom_JIF;
+import bkap.internalframe.OrderService;
 import bkap.internalframe.Room_JIF;
+import bkap.internalframe.SearchRoom;
 import bkap.internalframe.Service_JIF;
+import bkap.internalframe.ShowAllRoom;
 import bkap.internalframe.User;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDesktopPane;
@@ -28,14 +35,24 @@ import javax.swing.JPanel;
  *
  * @author admi
  */
-public class MainFrame extends javax.swing.JFrame {
+public class MainFrame extends javax.swing.JFrame implements Room_JIF.CallbackSearch, SearchRoom.CallbackRoom_JIF,OrderRoom_JIF.Callback
+,OrderService.Callback,ShowAllRoom.Callback{
     boolean isLogin = false; 
-    String user,pass;
+    public String user,pass;
     public static JDesktopPane actionJPanel;
+    Room_JIF room_JIF;
+    SearchRoom searchRoom;
+    OrderRoom_JIF orderRoom_JIF;
+    OrderService orderService;
+    ShowAllRoom showAllRoom;
+    AdvancedSearch_JIF advancedSearch_JIF;
+
+    
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
+        
         Login_Jdialog dangNhap = new Login_Jdialog(this, true);
         dangNhap.setVisible(true);
         if(dangNhap.isCheckDN() == true) {
@@ -106,6 +123,8 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jToolBar1 = new javax.swing.JToolBar();
+        jButton1 = new javax.swing.JButton();
+        jSeparator2 = new javax.swing.JToolBar.Separator();
         desktopPaneMain = new javax.swing.JDesktopPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
@@ -121,11 +140,24 @@ public class MainFrame extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("BKAP - Phần mềm quản lý khách sạn");
 
         jToolBar1.setRollover(true);
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/icon/icons8-department-store-18.png"))); // NOI18N
+        jButton1.setFocusable(false);
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton1);
+        jToolBar1.add(jSeparator2);
 
         javax.swing.GroupLayout desktopPaneMainLayout = new javax.swing.GroupLayout(desktopPaneMain);
         desktopPaneMain.setLayout(desktopPaneMainLayout);
@@ -227,6 +259,14 @@ public class MainFrame extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem6);
 
+        jMenuItem7.setText("jMenuItem7");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem7);
+
         jMenuBar1.add(jMenu3);
 
         setJMenuBar(jMenuBar1);
@@ -318,12 +358,30 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // TODO add your handling code here:
-        Room_JIF room_JIF = new Room_JIF();
+        room_JIF = new Room_JIF(this);
         if(!checkOnly(room_JIF)) {
             centerJIF(room_JIF);
             desktopPaneMain.add(room_JIF);
         }
     }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        // TODO add your handling code here:
+        SearchRoom searchRoom = new SearchRoom();
+        if(!checkOnly(searchRoom)) {
+            centerJIF(searchRoom);
+            desktopPaneMain.add(searchRoom);
+        }
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        orderRoom_JIF = new OrderRoom_JIF(this);
+        if(!checkOnly(orderRoom_JIF)) {
+            centerJIF(orderRoom_JIF);
+            desktopPaneMain.add(orderRoom_JIF);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -379,6 +437,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDesktopPane desktopPaneMain;
+    private javax.swing.JButton jButton1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -389,10 +448,86 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JMenuItem jmiDichVu;
     private javax.swing.JMenuItem jmiUser;
     private javax.swing.JMenuItem mItemDoiMK;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void actionShowSearch() {
+        SearchRoom searchRoom = new SearchRoom(this);
+        if(!checkOnly(searchRoom)) {
+            centerJIF(searchRoom);
+            desktopPaneMain.add(searchRoom);
+//            
+        }
+        
+    }
+
+    @Override
+    public void showRoom_JIF(int id) {
+//                room_JIF = new Room_JIF(this,id);
+//        if(!checkOnly(room_JIF)) {
+//            centerJIF(room_JIF);
+//            desktopPaneMain.add(room_JIF);
+//            System.out.println("bkap.hotel.MainFrame.showRoom_JIF()"+"dsds");
+//        }else{
+//            centerJIF(room_JIF);
+//            desktopPaneMain.add(room_JIF);
+//            room_JIF.toFront();
+//            System.out.println("bkap.hotel.MainFrame.showRoom_JIF()"+"lol");
+//        }
+        room_JIF.LoadDataById(id);
+//        room_JIF.toFront();
+    }
+
+    @Override
+    public void doShowAddService() {
+        orderService = new OrderService(this);
+        if(!checkOnly(orderService)) {
+            centerJIF(orderService);
+            desktopPaneMain.add(orderService);   
+            orderService.toFront();
+        }else {
+            
+            orderService.toFront();
+        }
+    }
+
+    @Override
+    public void doAddServiceOrderRoom(List<Service> listService) {
+        orderRoom_JIF.loadDataToTableService(listService);
+        orderRoom_JIF.loadTongTienDichVu(listService);
+        orderRoom_JIF.toFront();
+    }
+
+    @Override
+    public void doShowAllRoom() {
+        showAllRoom = new ShowAllRoom(this);
+        if(!checkOnly(showAllRoom)) {
+            centerJIF(showAllRoom);
+            desktopPaneMain.add(showAllRoom);   
+            showAllRoom.toFront();
+        }
+    }
+
+    @Override
+    public void doAddRoomToOrderRoom(int id) {
+        orderRoom_JIF.loadInformationRoom(id);
+        showAllRoom.toBack();
+    }
+
+    @Override
+    public void doAdvancedSearch() {
+        advancedSearch_JIF = new AdvancedSearch_JIF();
+        if(!checkOnly(advancedSearch_JIF)) {
+            centerJIF(advancedSearch_JIF);
+            desktopPaneMain.add(advancedSearch_JIF);
+            advancedSearch_JIF.toFront();
+        }
+    }
 }

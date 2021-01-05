@@ -9,12 +9,14 @@ import bkap.daoimpl.CategoryRoomDaoImpl;
 import bkap.daoimpl.InfrastructureDaoImpl;
 import bkap.daoimpl.InfrastructureRoomDaoImpl;
 import bkap.daoimpl.RoomDaoImpl;
+import bkap.dialog.SearchDialog;
 import bkap.entity.InfrasQuantity;
 import bkap.entity.InfrastructureRoom;
 import bkap.entity.Room;
 import bkap.utils.Constant;
 import bkap.utils.DialogThongBao;
 import bkap.utils.Helper;
+import java.awt.Dimension;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Vector;
@@ -27,6 +29,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
@@ -37,6 +40,55 @@ import javax.swing.event.ListSelectionListener;
  * @author admi
  */
 public class Room_JIF extends javax.swing.JInternalFrame {
+    
+    public CallbackSearch callbackSearch;
+    
+    public interface CallbackSearch{
+        public void actionShowSearch();
+    }
+    
+    public Room_JIF(CallbackSearch cbS) {
+        initComponents();
+        this.callbackSearch = cbS;
+        
+        infrastructure_JIF = new Infrastructure_JIF();
+        loadData();
+        
+        categoryRoomDaoImpl = new CategoryRoomDaoImpl();
+        infrastructureRoomDaoImpl = new InfrastructureRoomDaoImpl();
+        infrastructureDaoImpl = new InfrastructureDaoImpl();
+    }
+    
+    public Room_JIF(CallbackSearch cbs, int id) {
+        initComponents();
+        loadData();
+        this.callbackSearch = cbs;
+        infrastructure_JIF = new Infrastructure_JIF();
+        LoadDataById(id);
+        categoryRoomDaoImpl = new CategoryRoomDaoImpl();
+        infrastructureRoomDaoImpl = new InfrastructureRoomDaoImpl();
+        infrastructureDaoImpl = new InfrastructureDaoImpl();
+    }
+    
+    public void LoadDataById(int id) {
+        
+        roomDaoImpl = new RoomDaoImpl();
+        Room r = roomDaoImpl.getRoomById(id);
+        lblId.setText(String.valueOf(id));
+        txtName.setText(r.getName());
+        txtAcreage.setText(String.valueOf(r.getAcreage()));
+        txtPrice.setText(String.valueOf(r.getPrice()));
+        txtPeople.setText(String.valueOf(r.getPeople()));
+        txtNote.setText(r.getNote());
+        cboCateRoom.setSelectedIndex(r.getCategoryRoom());
+        if(r.getStatus() == 1) {
+            cbStatus.setSelected(true);
+        }else {
+            cbStatus.setSelected(false);
+        }
+    }
+    
+    
     
     Infrastructure_JIF infrastructure_JIF;
     Helper helper ;
@@ -79,6 +131,9 @@ public class Room_JIF extends javax.swing.JInternalFrame {
         } catch (SQLException ex) {
             Logger.getLogger(Room_JIF.class.getName()).log(Level.SEVERE, null, ex);
         }
+        btnSua.setEnabled(true);
+        btnXoa.setEnabled(false);
+        btnDonDep.setEnabled(false);
     }
     
     private void loadTableRoom() throws SQLException {
@@ -149,7 +204,7 @@ public class Room_JIF extends javax.swing.JInternalFrame {
         
         ResultSet rs = helper.loadDataIntoList(Constant.SQL_SELECT_INFRASTRUCTURE);
         while (rs.next()) {            
-            dlm.addElement(rs.getString("Name"));
+            dlm.addElement(rs.getString("Name")+String.valueOf("Price"));
         }
         listInfras.setModel(dlm);
         listInfras.setSelectedIndex(1);
@@ -198,6 +253,7 @@ public class Room_JIF extends javax.swing.JInternalFrame {
         btnXoa = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
         btnThemMoi = new javax.swing.JButton();
+        btnDonDep = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
 
         setClosable(true);
@@ -420,9 +476,18 @@ public class Room_JIF extends javax.swing.JInternalFrame {
             }
         });
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/icon/eraser.png"))); // NOI18N
-        jButton3.setText("Dọn Dẹp");
-        jButton3.setPreferredSize(new java.awt.Dimension(90, 30));
+        btnDonDep.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/icon/eraser.png"))); // NOI18N
+        btnDonDep.setText("Dọn Dẹp");
+        btnDonDep.setPreferredSize(new java.awt.Dimension(90, 30));
+        btnDonDep.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDonDepActionPerformed(evt);
+            }
+        });
+
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/bkap/icon/search.jpg"))); // NOI18N
+        jButton3.setText("Tìm Kiếm");
+        jButton3.setPreferredSize(new java.awt.Dimension(95, 30));
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -438,6 +503,8 @@ public class Room_JIF extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnDonDep, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnThemMoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -456,6 +523,7 @@ public class Room_JIF extends javax.swing.JInternalFrame {
                     .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnThemMoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDonDep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -474,27 +542,31 @@ public class Room_JIF extends javax.swing.JInternalFrame {
             int id = roomDaoImpl.insert(r);
             
             Map<String, Integer> ls = new HashMap<>();
-        for (int count = 0; count < tblInfras.getRowCount(); count++){
-            String name =tblInfras.getValueAt(count, 0).toString();
-            Integer quantity =Integer.parseInt(tblInfras.getValueAt(count, 1).toString());
-            ls.put(name,quantity);
-        }
-        for (Map.Entry<String, Integer> entry : ls.entrySet()) {
-            String key = entry.getKey();
-            int infras_id = 0;
-                try {
-                    //chuyển từ tên cơ sở vật chất sang Id
-                    infras_id =  (int) helper.getFieldByFieldString("infrastructure", "Id", "Name", key);
-                } catch (SQLException ex) {
-                    Logger.getLogger(Room_JIF.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            int val = entry.getValue(); 
-            InfrastructureRoom infrastructureRoom = new InfrastructureRoom(id, infras_id,val);
-            int kq = infrastructureRoomDaoImpl.insert(infrastructureRoom);
-        }
-        }else {
-            helper.messageNullValuesForForm(formAddRoom);
-        }
+            for (int count = 0; count < tblInfras.getRowCount(); count++){
+                String name =tblInfras.getValueAt(count, 0).toString();
+                Integer quantity =Integer.parseInt(tblInfras.getValueAt(count, 1).toString());
+                ls.put(name,quantity);
+            }
+            for (Map.Entry<String, Integer> entry : ls.entrySet()) {
+                String key = entry.getKey();
+                int infras_id = 0;
+                    try {
+                        //chuyển từ tên cơ sở vật chất sang Id
+                        infras_id =  (int) helper.getFieldByFieldString("infrastructure", "Id", "Name", key);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Room_JIF.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                int val = entry.getValue(); 
+                InfrastructureRoom infrastructureRoom = new InfrastructureRoom(id, infras_id,val);
+                int kq = infrastructureRoomDaoImpl.insert(infrastructureRoom);
+            }
+            loadData();
+            if(id!=0) {
+                DialogThongBao.showSuccess(this, Constant.MSG_SUCCESS_INSERT, Constant.MSG_SUCCESS_INSERT);
+            }
+            }else {
+                helper.messageNullValuesForForm(formAddRoom);
+            }
     }//GEN-LAST:event_btnThemMoiActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -592,7 +664,10 @@ public class Room_JIF extends javax.swing.JInternalFrame {
                 
                         DialogThongBao.showSuccess(this, Constant.MSG_SUCCESS_UPDATE, Constant.MSG_SUCCESS_UPDATE);
                 
-            }     
+            }  
+            loadData();
+            clearInput();
+            btnThemMoi.setEnabled(true);
         }else{
             helper.messageNullValuesForForm(formAddRoom);
         }
@@ -613,6 +688,7 @@ public class Room_JIF extends javax.swing.JInternalFrame {
                     
                 } 
                 loadData();
+                clearInput();
             }else{
                 if(infrastructureRoomDaoImpl.delete(Integer.parseInt(lblId.getText())) != 0) {
                     if(roomDaoImpl.delete(Integer.parseInt(lblId.getText())) > 0){
@@ -623,6 +699,7 @@ public class Room_JIF extends javax.swing.JInternalFrame {
                         
                     }  
                     loadData();
+                    clearInput();
                 }else{
                     DialogThongBao.showError(this, Constant.MSG_SUCCESS_DELETE , Constant.MSG_SUCCESS_DELETE);
                 }
@@ -641,14 +718,34 @@ public class Room_JIF extends javax.swing.JInternalFrame {
         cbStatus.setSelected(false);
     }
     
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnDonDepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDonDepActionPerformed
         // TODO add your handling code here:
         clearInput();
         btnThemMoi.setEnabled(true);
         btnSua.setEnabled(false);
         btnXoa.setEnabled(false);
+    }//GEN-LAST:event_btnDonDepActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+//        SearchDialog searchDialog = new SearchDialog(parent, true);
+//        SearchRoom searchRoom = new SearchRoom();
+//        getParent().add(searchRoom);
+//        centerJIF(searchRoom);
+         callbackSearch.actionShowSearch();
+//         dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    public void centerJIF(JInternalFrame jif) {
+        Dimension desktopSize = getParent().getSize();
+        Dimension jInternalFrameSize = jif.getSize();
+        int width = (desktopSize.width - jInternalFrameSize.width) / 2;
+        int height = (desktopSize.height - jInternalFrameSize.height) / 2;
+        jif.setLocation(width, height);
+        jif.setVisible(true);
+    }
+    
+    
     String name,img,note;
     float price,acreage;
     int people,status,categoryRoom,id;
@@ -674,6 +771,7 @@ public class Room_JIF extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDonDep;
     private javax.swing.JButton btnLoadList;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThemMoi;

@@ -30,7 +30,8 @@ public class Constant {
     public static final String MSG_SUCCESS_PASSWORD = "Đổi mật khẩu thành công";
     public static final String MSG_SUCCESS_INSERT_USERS = "Thêm mới thành công USER";
     public static final String MSG_SUCCESS_UPDATE_USER = "Cập nhật thành công USER";
-    public static final String MSG_SUCCESS_DELETE = "Xóa Thất bại";
+    public static final String MSG_SUCCESS_INSERT = "Thêm mới thành công";
+    public static final String MSG_SUCCESS_DELETE = "Xóa Thành Công";
     
     
     //update password
@@ -137,6 +138,20 @@ public class Constant {
     
     //delete room
     public static String SQL_DELETE_ROOM = "{call delete_room(?)}";
+    //select room by id
+    public static String SQL_SELECT_ROOM_BY_ID = "{call select_room_by_id(?)}";
+    
+    //search by Id
+    public static String SQL_SEARCH_BY_ID = "{call search_room_id(?)}";
+    //search by name
+    public static String SQL_SEARCH_BY_NAME = "{call search_room_name(?)}";
+    //search by cateroom
+    public static String SQL_SEARCH_BY_CATEROOM = "{call search_room_cateRoom(?)}";
+    //search by status
+    public static String SQL_SEARCH_BY_STATUS = "{call search_room_Status(?)}";
+    
+    //search basic
+    public static String SQL_SEARCH_BY_CATE_STATUS_PRICE = "{call select_room_by_cate_status_price(?,?,?,?)}";
     
     //---------------------------infrastructure room------------------------------
     //insert infras_room
@@ -150,5 +165,9 @@ public class Constant {
     
     //delete infras_room
     public static String SQL_DELETE_INFRASTRUCTURE_ROOM = "{call delete_infras_room_by_roomid(?)}";
+    
+    //------------------------Customer------------------------------
+    //insert customer
+    public static String SQL_INSERT_CUSTOMER = "{call insert_customer(?,?,?,?,?,?,?,?)}";
 }
 

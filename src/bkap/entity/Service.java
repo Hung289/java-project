@@ -62,6 +62,11 @@ public class Service {
     public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
     }
+
+    @Override
+    public String toString() {
+        return name + " - " + price;
+    }
     
     
     

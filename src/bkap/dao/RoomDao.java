@@ -18,4 +18,10 @@ public interface RoomDao {
     public List<Room> getAllRooms();
     public int update(Room room);
     public int delete(int id);
+    public Room getRoomById(int id);
+    public List<Room> searchByID(String fieldwhere, String keyword);
+    public List<Room> searchByName(String fieldwhere, String keyword);
+    public List<Room> searchByCateRoom(Object id);
+    public List<Room> searchByStatus(Object id);
+    public List<Room> searchByCateStatusPrice(int cateId, int status, float priceMin, float priceMax);
 }
